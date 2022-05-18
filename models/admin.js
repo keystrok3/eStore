@@ -24,4 +24,16 @@ const revoke_admin = function(username) {
     });
 };
 
-module.exports = { make_admin, revoke_admin };
+
+// create new product category
+const create_category = function(name) {
+    return new Promise((resolve, reject) => {
+        const sql = 'INSERT INTO product_categories (category_id, name) VALUES (NULL, ?);';
+        connection.query(sql, name, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    })
+}
+
+module.exports = { make_admin, revoke_admin, create_category };
