@@ -1,5 +1,4 @@
 
-const auth = require('./auth.js');
 const express = require('express');
 
 const session = require('express-session');
@@ -25,15 +24,15 @@ app.use(session({
     }
 }));
 
-// routes
-app.post('/register', require('./auth.js'));
-app.post('/login', require('./auth.js'));
-app.get('/logout', require('./auth.js'));
+// auth routes
+app.post('/register', require('./routes/auth.js'));
+app.post('/login', require('./routes/auth.js'));
+app.get('/logout', require('./routes/auth.js'));
 
 
 // admin routes
-app.put('/makeadmin', require('./admin'));
-app.put('/revokeadmin', require('./admin'));
+app.put('/makeadmin', require('./routes/admin'));
+app.put('/revokeadmin', require('./routes/admin'));
 
 
 

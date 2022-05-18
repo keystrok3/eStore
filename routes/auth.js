@@ -3,7 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const { register, login, logout } = require('./controllers/auth.js');
+const { register, login, logout } = require('../controllers/auth.js');
 
 
 // register new user
