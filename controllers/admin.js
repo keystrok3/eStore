@@ -2,7 +2,6 @@ const db = require('../models/admin.js');
 
 
 
-
 const makeAdmin = async (req, res) => {
     const { username } = req.body;
     try {
@@ -30,7 +29,6 @@ const revokeAdmin = async (req, res) => {
 // create product category
 const createCategory = async (req, res) => {
     const { name } = req.body;
-    console.log(name);
     try {
         let category = await db.create_category(name);
         console.log(category);
@@ -42,5 +40,19 @@ const createCategory = async (req, res) => {
 };
 
 
+// create new product
+const createNewProduct = async (req, res) => {
+    const { name, unit_price, quantity, category_id } = req.body;
+    try {
+        let product = await db.create_new_product(name, unit_price, quantity, category_id);
+        console.log(product);
+        res.json({ msg: 'Product created' });
+    } catch (error) {
+        console.error(error);
+        res.json({ msg: "Something went wrong" }).sendStatus(500);
+    }
+}
 
-module.exports = { makeAdmin, revokeAdmin, createCategory };
+
+
+module.exports = { makeAdmin, revokeAdmin, createCategory, createNewProduct };

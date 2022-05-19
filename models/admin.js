@@ -38,8 +38,22 @@ const create_category = function(name) {
     })
 };
 
+// create new product
+const create_new_product = function(name, unit_price, quantity, category_id) {
+    return new Promise((resolve, reject) => {
+        const sql = 'INSERT INTO products (product_id, name, unit_price, quantity, category_id) \
+                        VALUES (UUID(), ?, ?, ?, ?)';
+        connection.query(sql, [name, unit_price, quantity, category_id], (err, results) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(results);
+        });
+    });
+};
+
 
 // add stock to the inventory
 // update new purchases records
 
-module.exports = { make_admin, revoke_admin, create_category };
+module.exports = { make_admin, revoke_admin, create_category, create_new_product };

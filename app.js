@@ -34,6 +34,7 @@ app.get('/logout', require('./routes/auth.js'));
 app.put('/makeadmin', require('./routes/admin'));
 app.put('/revokeadmin', require('./routes/admin'));
 app.post('/createcategory', require('./routes/admin'));
+app.post('/createnewproduct', require('./routes/admin'));
 
 
 
