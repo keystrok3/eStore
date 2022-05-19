@@ -1,16 +1,19 @@
 const isAdmin = require('../middleware.js');
 const express = require('express');
-const { make_admin, revoke_admin } = require('../models/admin.js');
+const { makeAdmin, revokeAdmin, createCategory } = require('../controllers/admin');
 const router = express.Router();
 
 
 router.use(isAdmin);
 
 // make a user an admin
-router.route('/makeadmin').put(make_admin);
+router.route('/makeadmin').put(makeAdmin);
 
 // revoke admin 
-router.route('/revokeadmin').put(revoke_admin);
+router.route('/revokeadmin').put(revokeAdmin);
+
+// create product category
+router.route('/createcategory').post(createCategory);
 
 
 module.exports = router;

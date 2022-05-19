@@ -33,6 +33,7 @@ app.get('/logout', require('./routes/auth.js'));
 // admin routes
 app.put('/makeadmin', require('./routes/admin'));
 app.put('/revokeadmin', require('./routes/admin'));
+app.post('/createcategory', require('./routes/admin'));
 
 
 
