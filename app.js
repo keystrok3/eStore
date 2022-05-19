@@ -35,6 +35,8 @@ app.put('/makeadmin', require('./routes/admin'));
 app.put('/revokeadmin', require('./routes/admin'));
 app.post('/createcategory', require('./routes/admin'));
 app.post('/createnewproduct', require('./routes/admin'));
+app.put('/setunitprice', require('./routes/admin'));
+app.post('/purchasestock', require('./routes/admin'));
 
 
 

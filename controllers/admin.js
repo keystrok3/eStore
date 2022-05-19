@@ -51,8 +51,45 @@ const createNewProduct = async (req, res) => {
         console.error(error);
         res.json({ msg: "Something went wrong" }).sendStatus(500);
     }
-}
+};
+
+// set unit price for a product
+const setUnitPrice = async (req, res) => {
+    const { product_id, unit_price } = req.body;
+
+    try {
+        let price = await db.set_unit_price(product_id, unit_price);
+        console.log(price);
+        res.json({ msg: 'Price set'});
+    } catch (error) {
+        console.error(error);
+        res.json({ msg: "Something went wrong" }).sendStatus(500);
+    }
+};
+
+
+// purchases stock
+const purchaseStock = async (req, res) => {
+    const { product_id, quantity, unit_price } = req.body;
+
+    console.log(product_id);
+    try {
+        let stock = await db.purchase_stock(product_id, quantity, unit_price);
+        console.log(stock);
+        return res.json({ msg: 'Stock bought' });
+    } catch (error) {
+        console.error(error);
+        return res.json({ msg: "Something went wrong" }).sendStatus(500);
+    }
+};
 
 
 
-module.exports = { makeAdmin, revokeAdmin, createCategory, createNewProduct };
+module.exports = { 
+    makeAdmin, 
+    revokeAdmin, 
+    createCategory, 
+    createNewProduct, 
+    setUnitPrice,
+    purchaseStock
+};
