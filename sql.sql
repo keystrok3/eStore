@@ -21,7 +21,7 @@ CREATE TABLE product_categories (
 
 -- products sold
 CREATE TABLE products (
-    product_id INT,
+    product_id VARCHAR(250),
     name VARCHAR(50),
     unit_price DECIMAL(10, 2),
     quantity INT,
@@ -33,7 +33,7 @@ CREATE TABLE products (
 -- admin stock purchases
 CREATE TABLE purchases (
     purchase_id INT AUTO_INCREMENT,
-    product_id INT,
+    product_id VARCHAR(250),
     quantity INT,
     unit_price DECIMAL(10, 2),
     delivery_date Datetime,
@@ -45,7 +45,7 @@ CREATE TABLE purchases (
 -- sales to customers
 CREATE TABLE sales (
     sale_id INT AUTO_INCREMENT,
-    product_id INT,
+    product_id VARCHAR(250),
     quantity INT,
     unit_price DECIMAL(10, 2),
     sale_date Datetime,
