@@ -1,8 +1,13 @@
 
+require('dotenv').config({ path: './.env'})
+
 const express = require('express');
 
 const session = require('express-session');
-const SESSION_NAME = 'SESS_NAME';
+
+
+const SESSION_NAME = process.env.SESS_NAME;
+const PORT = process.env.PORT;
 
 
 const app = express();
@@ -16,7 +21,7 @@ app.use(session({
     name: SESSION_NAME,
     resave: false,
     saveUninitialized: false,
-    secret: 'g1p&ms/ja!k',
+    secret: process.env.SECRET,
     cookie: {
         maxAge: 7200000,
         sameSite: true,

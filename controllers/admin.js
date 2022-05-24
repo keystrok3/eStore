@@ -68,7 +68,7 @@ const setUnitPrice = async (req, res) => {
 };
 
 
-// purchases stock
+// purchase stock
 const purchaseStock = async (req, res) => {
     const { product_id, quantity, unit_price } = req.body;
 
