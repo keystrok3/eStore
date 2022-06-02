@@ -1,4 +1,3 @@
-const isAdmin = require('../middleware.js');
 const express = require('express');
 const { 
     makeAdmin, 
@@ -7,11 +6,11 @@ const {
     createNewProduct, 
     setUnitPrice, 
     purchaseStock
-} = require('../controllers/admin');
+} = require('../controllers/admin.js');
+
+
 const router = express.Router();
 
-
-router.use(isAdmin);
 
 // make a user an admin
 router.route('/makeadmin').put(makeAdmin);

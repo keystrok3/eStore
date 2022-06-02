@@ -6,6 +6,10 @@ const express = require('express');
 const session = require('express-session');
 
 
+// middleware
+const { isAdmin, isUser } = require('./middleware.js');
+
+
 const SESSION_NAME = process.env.SESS_NAME;
 const PORT = process.env.PORT;
 
@@ -29,19 +33,25 @@ app.use(session({
     }
 }));
 
+
 // auth routes
 app.post('/register', require('./routes/auth.js'));
 app.post('/login', require('./routes/auth.js'));
 app.get('/logout', require('./routes/auth.js'));
 
-
+/**
+ * Route Handlers
+ * */ 
 // admin routes
-app.put('/makeadmin', require('./routes/admin'));
-app.put('/revokeadmin', require('./routes/admin'));
-app.post('/createcategory', require('./routes/admin'));
-app.post('/createnewproduct', require('./routes/admin'));
-app.put('/setunitprice', require('./routes/admin'));
-app.post('/purchasestock', require('./routes/admin'));
+app.put('/makeadmin', isAdmin, require('./routes/admin'));
+app.put('/revokeadmin', isAdmin, require('./routes/admin'));
+app.post('/createcategory', isAdmin, require('./routes/admin'));
+app.post('/createnewproduct', isAdmin, require('./routes/admin'));
+app.put('/setunitprice', isAdmin, require('./routes/admin'));
+app.post('/purchasestock', isAdmin, require('./routes/admin'));
+
+// customer routes
+app.post('/buyitem', isUser, require('./routes/customer'));
 
 
 
