@@ -1,4 +1,10 @@
 
+/**
+ * Contains all the functions that provide the functionality for database access
+ * for customers
+*/
+
+
 const db = require('../models/customer.js');
 
 
@@ -19,5 +25,34 @@ const buyProduct = async (req, res) => {
     }
 };
 
+const list_products_of_category = async (req, res) => {
+    const { category_id } = req.body;
 
-module.exports = { buyProduct };
+    try {
+        let prod_list = await db.get_products_of_category(category_id);
+        if (prod_list.length === 0) {
+            res.json({ msg: "Out of Stock" });
+        }
+        res.json({ products: prod_list });
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+};
+
+
+const getProduct = async (req, res) => {
+    const product_id = req.params.product_id;
+      
+    try {
+        let prod = await db.get_specific_product(product_id);
+        
+        res.json({ msg: prod });
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+};
+
+
+module.exports = { buyProduct, list_products_of_category, getProduct };

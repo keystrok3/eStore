@@ -5,7 +5,7 @@
 
 const connection = require('../config/db.js');
 
-
+// Check that the product is in stock
 const check_product = function(product_id) {
     return new Promise((resolve, reject) => {
         return connection.query(
@@ -67,4 +67,36 @@ const buy_product = function(product_id, quantity, unit_price, username) {
 };
 
 
-module.exports = { buy_product, check_product };
+const get_products_of_category = function(category_id) {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            'SELECT * FROM products WHERE category_id = ?',
+            [ category_id ],
+            (err, results) => {
+                if(err) reject(err);
+                resolve(results);
+            }
+        );
+    });
+}
+
+
+const get_specific_product = function(product_id) {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            'SELECT * FROM products WHERE product_id = ?',
+            [ product_id ],
+            (err, results) => {
+                if(err) reject(err);
+                resolve(results);
+            }
+        )
+    });
+}
+
+module.exports = { 
+    buy_product, 
+    check_product, 
+    get_products_of_category, 
+    get_specific_product 
+};

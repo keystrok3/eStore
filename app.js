@@ -52,6 +52,8 @@ app.post('/purchasestock', isAdmin, require('./routes/admin'));
 
 // customer routes
 app.post('/buyitem', isUser, require('./routes/customer'));
+app.get('/getproductlist', isUser, require('./routes/customer'));
+app.get('/getproduct/:product_id', isUser, require('./routes/customer'));
 
 
 
