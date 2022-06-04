@@ -1,18 +1,29 @@
 
-require('dotenv').config({ path: './.env'})
+require('dotenv').config({ path: './.env'});
 
 const express = require('express');
 
 const session = require('express-session');
 
 
+// Session store
+let RedisStore = require('connect-redis')(session);
+
+
 // middleware
 const { isAdmin, isUser } = require('./middleware.js');
 
 
+// Globals
 const SESSION_NAME = process.env.SESS_NAME;
 const PORT = process.env.PORT;
 
+
+
+// Redis store config
+const { createClient } = require('redis');
+let redisClient = createClient({ legacyMode: true });
+redisClient.connect().catch(console.error);
 
 const app = express();
 
@@ -22,6 +33,7 @@ app.use(express.json())
 
 // middleware for user session
 app.use(session({
+    store: new RedisStore({ client: redisClient }),
     name: SESSION_NAME,
     resave: false,
     saveUninitialized: false,
@@ -33,6 +45,14 @@ app.use(session({
     }
 }));
 
+
+// do a session check for redis auto-reconnects
+// app.use(function(req, res, next) {
+//     if(!req.session) {
+//         return next(new Error("Session expired"));
+//     }
+//     next();
+// });
 
 // auth routes
 app.post('/register', require('./routes/auth.js'));

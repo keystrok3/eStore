@@ -1,7 +1,7 @@
 
 /**
  * Contains all the functions that provide the functionality for database access
- * for customers
+ * for customers.
 */
 
 
