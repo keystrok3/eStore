@@ -2,15 +2,43 @@
 
 const bcrypt = require('bcrypt');   // for hashing passwords
 const db = require('../models/user.js');
+const jwt = require('jwt-encode');
+const nodemailer = require('nodemailer');
+const { sendConfirmationEmail } = require('../config/email_confirm.js');
 
 const register = async (req, res) => {
     const { fname, lname, email, username, password } = req.body;
+
+    const token = jwt({ email: req.body.email }, process.env.SECRET);
+
     try {
         let password_hash = await bcrypt.hash(password, 10);    // encrypt the password
 
-        let results = await db.register(username, fname, lname, email, password_hash);   //password is not stored in plaintext
+        let results = await db.register(username, fname, lname, email, password_hash, token);   //password is not stored in plaintext
         console.log(results);
+        
+        // console.log("TOKEN: ", token);
+        sendConfirmationEmail(fname, email, JSON.stringify(token));
         res.json({ msg: 'Done'});
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+};
+
+
+const verifyUser = async (req, res) => {
+    const { token } = req.params;
+    try {
+        const user = await db.find_user_by_confirmation(token);
+        if(user[0] === undefined) {
+            return res.json({ msg: "Invalid Confirmation Token" });
+        }
+        const status = await db.change_status(user[0].username);
+        if (status === undefined) {
+            return res.json({ msg: "Something went wrong"}).status(500);
+        }
+        return res.json({ msg: "You're verified!"});
     } catch (error) {
         console.error(error);
         res.sendStatus(500);
@@ -60,4 +88,4 @@ const logout = async (req, res) => {
 };
 
 
-module.exports = { register, login, logout };
+module.exports = { register, login, logout, verifyUser };

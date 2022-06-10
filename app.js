@@ -56,6 +56,7 @@ app.use(session({
 
 // auth routes
 app.post('/register', require('./routes/auth.js'));
+app.get('/verifyuser/:token', require('./routes/auth.js'));
 app.post('/login', require('./routes/auth.js'));
 app.get('/logout', require('./routes/auth.js'));
 
